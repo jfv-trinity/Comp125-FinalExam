@@ -1,5 +1,4 @@
 "use strict";
-
 let Game = (function () {
     // variable declarations
     let canvas = document.getElementsByTagName('canvas')[0];
@@ -10,8 +9,6 @@ let Game = (function () {
     let totalLabel;
     let exampleButton;
     let die_value = 0;
-    let die_sum = "";
-
     let assetManifest = [
         { id: "1", src: "./Assets/images/1_die.png" },
         { id: "2", src: "./Assets/images/2_die.png" },
@@ -50,12 +47,14 @@ let Game = (function () {
         Config.Game.ASSETS = assets; // make a reference to the assets in the global config
         Main();
     }
-
+    /**
+     * This function is triggered every frame (16ms)
+     * The stage is then erased and redrawn
+     */
     function Update() {
-        totalLabel.setText(die_value);
+        totalLabel.setText(die_value.toString());
         stage.update();
     }
-    
     function checkRange(value, lowerBounds, upperBounds) {
         if (value >= lowerBounds && value <= upperBounds) {
             return value;
@@ -64,53 +63,41 @@ let Game = (function () {
             return !value;
         }
     }
-
     function Dice() {
         var die = [" ", " "];
         var die_result = [0, 0];
         die_value = 0;
         for (var roll = 0; roll < 2; roll++) {
-            die_result[roll] = Math.floor(Math.random() * 7);  
+            die_result[roll] = Math.floor(Math.random() * 7);
             switch (die_result[roll]) {
-                case checkRange(die_result[roll], 0, 1): 
+                case checkRange(die_result[roll], 0, 1):
                     die[roll] = "1";
-                    die_value+= 1;
+                    die_value += 1;
                     break;
-
-                case checkRange(die_result[roll], 1, 2): 
+                case checkRange(die_result[roll], 1, 2):
                     die[roll] = "2";
-                    die_value+= 2;
+                    die_value += 2;
                     break;
-
-                case checkRange(die_result[roll], 2, 3): 
+                case checkRange(die_result[roll], 2, 3):
                     die[roll] = "3";
-                    die_value+= 3;
+                    die_value += 3;
                     break;
-
                 case checkRange(die_result[roll], 3, 4):
                     die[roll] = "4";
-                    die_value+= 4;
+                    die_value += 4;
                     break;
-
                 case checkRange(die_result[roll], 4, 5):
                     die[roll] = "5";
-                    die_value+= 5;
+                    die_value += 5;
                     break;
-
                 case checkRange(die_result[roll], 5, 6):
                     die[roll] = "6";
-                    die_value+= 6;
+                    die_value += 6;
                     break;
             }
         }
-       
         return die;
     }
-    /**
-     * This function is triggered every frame (16ms)
-     * The stage is then erased and redrawn
-     */
-   
     function buildInterface() {
         console.log(`%c Main Function`, "color: grey; font-size: 14px; font-weight: bold;");
         totalLabel = new UIObjects.Label("Roll!", "40px", "Consolas", "#000000", Config.Game.CENTER_X, Config.Game.CENTER_Y + 120, true);
@@ -121,35 +108,18 @@ let Game = (function () {
         stage.addChild(leftdie);
         rightdie = new Core.GameObject("1", Config.Game.CENTER_X + 130, Config.Game.CENTER_Y - 12, true);
         stage.addChild(rightdie);
-
-
-       
     }
-
     function interfaceLogic() {
-        
         exampleButton.on("click", () => {
-           
             let dice = Dice();
-
-            leftdie.image = assets.getResult(dice[0])
-            rightdie.image = assets.getResult(dice[1])
-            // die_sum = die_value.toString();
-           
+            leftdie.image = assets.getResult(dice[0]);
+            rightdie.image = assets.getResult(dice[1]);
         });
     }
-
-    
-    /**
-     * This is the main function of the Game (where all the fun happens)
-     *
-     */
-    
-function Main(){
-    buildInterface();
-    interfaceLogic();
-}
-
+    function Main() {
+        buildInterface();
+        interfaceLogic();
+    }
     window.addEventListener('load', Preload);
 })();
 //# sourceMappingURL=game.js.map

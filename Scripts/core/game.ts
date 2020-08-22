@@ -8,7 +8,6 @@ let Game = (function(){
     let rightdie: Core.GameObject;
     let totalLabel: UIObjects.Label;
     let exampleButton: UIObjects.Button; 
-    let die_sum:string;
     let die_value = 0;
 
     let assetManifest =  [
@@ -60,7 +59,7 @@ let Game = (function(){
      */
     function Update():void
     {
-        totalLabel.setText(die_sum);
+        totalLabel.setText(die_value.toString());
         stage.update();
     }
 
@@ -118,8 +117,8 @@ let Game = (function(){
     function buildInterface():void
      {
         console.log(`%c Main Function`, "color: grey; font-size: 14px; font-weight: bold;");
-        // totalLabel = new UIObjects.Label("Roll!", "40px", "Consolas", "#000000", Config.Game.CENTER_X, Config.Game.CENTER_Y + 120, true);
-        // stage.addChild(totalLabel);
+        totalLabel = new UIObjects.Label("Roll!", "40px", "Consolas", "#000000", Config.Game.CENTER_X, Config.Game.CENTER_Y + 120, true);
+        stage.addChild(totalLabel);
         exampleButton = new UIObjects.Button("button", Config.Game.CENTER_X, Config.Game.CENTER_Y + 180, true);
         stage.addChild(exampleButton);
         leftdie = new Core.GameObject("1", Config.Game.CENTER_X - 130, Config.Game.CENTER_Y - 12, true);
@@ -137,7 +136,6 @@ let Game = (function(){
 
             leftdie.image = assets.getResult(dice[0]) as HTMLImageElement;
             rightdie.image = assets.getResult(dice[1]) as HTMLImageElement;
-            die_sum = die_value.toString();
         });
     }
 
